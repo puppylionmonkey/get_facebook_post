@@ -22,7 +22,7 @@ while True:
     time.sleep(0.5)
     print('目前文章數:', len(driver.find_elements(By.XPATH, "//*[@class='x1yztbdb x1n2onr6 xh8yej3 x1ja2u2z']")))
     message_count_element_list = driver.find_elements(By.XPATH, "//*[@class='x1n2onr6']//span[contains(text(), '則留言')]")  # 留言數
-    print(message_count_element_list)
+    # print(message_count_element_list)
     for message_count_element in message_count_element_list:
         if message_count_element.text == '':
             continue
@@ -30,7 +30,7 @@ while True:
             message_count_list.append(int(message_count_element.text.replace('則留言', '')))
     if max(message_count_list) > 700:
         break
-print(message_count_list)
+# print(message_count_list)
 max_message_count = max(message_count_list)
 # 找到701留言的文章
 
@@ -43,8 +43,30 @@ driver.find_element(By.XPATH, "//*[text()='最相關留言']").click()
 driver.find_element(By.XPATH, "//*[text()='所有留言']").click()
 while True:
     if len(driver.find_elements(By.XPATH, "//*[text()='顯示先前的留言']")) > 0:
-        driver.find_element(By.XPATH, "//*[text()='顯示先前的留言']").click()
+        try:
+            driver.find_element(By.XPATH, "//*[text()='顯示先前的留言']").click()
+        except:
+            break
     else:
         break
-#
+driver.find_element(By.XPATH, "//*[@class='x1n2onr6']/parent::*/parent::*//span[text()='" + str(max_message_count) + "則留言']/ancestor::*[@class='xwya9rg x11i5rnm x1e56ztr x1mh8g0r xh8yej3']//h3[text()='留言']/parent::*/ul")
+li_list = driver.find_elements(By.XPATH, "//*[@class='x1n2onr6']/parent::*/parent::*//span[text()='" + str(max_message_count) + "則留言']/ancestor::*[@class='xwya9rg x11i5rnm x1e56ztr x1mh8g0r xh8yej3']//h3[text()='留言']/parent::*/ul/li")
+str_id = 0
+message_list = list()
+message = ''
+for li in li_list:
+    message_text = li.text
+    message_split_list = message_text.split('\n')
+    print(message_split_list)
+    for i in range(len(message_split_list)):
+        if '回覆分享' in message_split_list[i - 1] or '則回覆' in message_split_list[i - 1]:
+            continue
+        if '則回覆' in message_split_list[i] or '回覆分享' in message_split_list[i]:
+            continue
+        message += message_split_list[i]
+        if message_split_list[i] == '讚':
+            message_list.append(message)
+            message = ''
+
+print(message_list)
 # driver.find_element(By.XPATH, "//*[contains(@class, '')]")
