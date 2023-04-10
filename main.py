@@ -39,5 +39,12 @@ print(driver.find_element(By.XPATH, message_count_xpath + "/ancestor::*[@class='
 # # 點擊留言
 scroll_down_until_element_visible_bottom(message_count_xpath)
 driver.find_element(By.XPATH, message_count_xpath).click()
+driver.find_element(By.XPATH, "//*[text()='最相關留言']").click()
+driver.find_element(By.XPATH, "//*[text()='所有留言']").click()
+while True:
+    if len(driver.find_elements(By.XPATH, "//*[text()='顯示先前的留言']")) > 0:
+        driver.find_element(By.XPATH, "//*[text()='顯示先前的留言']").click()
+    else:
+        break
 #
 # driver.find_element(By.XPATH, "//*[contains(@class, '')]")
