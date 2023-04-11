@@ -57,13 +57,14 @@ message = ''
 for li in li_list:
     message_text = li.text
     message_split_list = message_text.split('\n')
-    print(message_split_list)
+    # print(message_split_list)
     for i in range(len(message_split_list)):
         if '回覆分享' in message_split_list[i - 1] or '則回覆' in message_split_list[i - 1]:
             continue
         if '則回覆' in message_split_list[i] or '回覆分享' in message_split_list[i]:
             continue
-        message += message_split_list[i]
+        if message_split_list[i] != '讚':
+            message += message_split_list[i]
         if message_split_list[i] == '讚':
             message_list.append(message)
             message = ''
