@@ -68,6 +68,5 @@ for li in li_list:
         if message_split_list[i] == '讚':
             message_list.append(message)
             message = ''
-
+driver.find_element(By.XPATH, "//*[@aria-label='關閉']").click()
 print(message_list)
-# driver.find_element(By.XPATH, "//*[contains(@class, '')]")
